@@ -21,3 +21,20 @@ export default function handler(req, res) {
         res.status(405).end(`Method ${req.method} Not Allowed test test test`);
     }
 }
+
+fetch('https://kakao-skill-server.vercel.app/', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        userRequest: {
+            message: {
+                text: "안녕하세요"
+            }
+        }
+    }),
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
