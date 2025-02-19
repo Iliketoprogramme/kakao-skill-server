@@ -45,7 +45,7 @@ app.post('/exam', (req, res) => {
                 }
             ]
         }
-    }),
+    })
 })
 .then(response => response.json())
 .then(data => console.log(data))
