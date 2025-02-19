@@ -1,6 +1,13 @@
-const express = require('express'); // Express 라이브러리 가져오기
-const app = express(); // 앱 생성
-app.use(express.json()); // JSON 데이터 처리를 위한 설정
+const express = require('express');
+const app = express();
+const logger = require('morgan');
+
+const apiRouter = express.Router();
+
+app.use(logger('dev', {}));
+app.use(express.json());
+app.use('/api', apiRouter);
+
 
 // "오늘 날짜 알려줘" 요청 처리
 app.post('/today', (req, res) => {
