@@ -1,6 +1,9 @@
 // api/index.js
 export default function handler(req, res) {
-    if (req.method === 'POST') {
+    // 기본 GET 요청 처리
+    if (req.method === 'GET') {
+        res.status(200).json({ message: "Welcome to the API!" });
+    } else if (req.method === 'POST') {
         if (req.url === '/today') {
             const today = new Date();
             const days = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
@@ -43,7 +46,7 @@ export default function handler(req, res) {
             res.status(404).json({ error: 'Not Found' });
         }
     } else {
-        res.setHeader('Allow', ['POST']);
+        res.setHeader('Allow', ['GET', 'POST']);
         res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 }
