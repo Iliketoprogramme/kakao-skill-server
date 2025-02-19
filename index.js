@@ -1,53 +1,26 @@
-const express = require('express'); // Express 라이브러리 가져오기
-const app = express(); // 앱 생성
-app.use(express.json()); // JSON 데이터 처리를 위한 설정
+export default function handler(req, res) {
+    // 1️⃣ [중요] POST 요청만 허용
+    if (req.method !== "POST") {
+        return res.status(405).json({ error: "Method Not Allowed" });
+    }
 
-// "오늘 날짜 알려줘" 요청 처리
-app.post('/today', (req, res) => {
+    // 2️⃣ 현재 날짜 & 요일 가져오기
     const today = new Date();
+    const date = today.toISOString().split("T")[0]; // YYYY-MM-DD 형식
     const days = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+    const day = days[today.getDay()]; // 요일 가져오기
 
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1;
-    const date = today.getDate();
-    const day = days[today.getDay()];
-
-    res.json({
+    // 3️⃣ 카카오톡 챗봇 응답 JSON 형식으로 반환
+    res.status(200).json({
         version: "2.0",
         template: {
             outputs: [
                 {
                     simpleText: {
-                        text: `오늘 날짜는 ${year}년 ${month}월 ${date}일 (${day})입니다! 📆`
+                        text: `오늘은 ${date} (${day}) 입니다.`
                     }
                 }
             ]
         }
     });
-});
-
-// "시험 몇 일 남았어?" 요청 처리
-app.post('/exam', (req, res) => {
-    const examDate = new Date(2025, 5, 10); // 예시: 2025년 6월 10일 시험일
-    const today = new Date();
-
-    const diffTime = examDate - today;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    res.json({
-        version: "2.0",
-        template: {
-            outputs: [
-                {
-                    simpleText: {
-                        text: `시험까지 ${diffDays}일 남았습니다! 📚`
-                    }
-                }
-            ]
-        }
-    });
-});
-
-// 서버 실행 (Vercel에서는 필요 없지만, 로컬 테스트 용도)
-//const PORT = process.env.PORT || 3000;
-//app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+}
