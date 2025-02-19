@@ -1,13 +1,6 @@
-const express = require('express');
-const app = express();
-const logger = require('morgan');
-
-const apiRouter = express.Router();
-
-app.use(logger('dev', {}));
-app.use(express.json());
-app.use('/api', apiRouter);
-
+const express = require('express'); // Express 라이브러리 가져오기
+const app = express(); // 앱 생성
+app.use(express.json()); // JSON 데이터 처리를 위한 설정
 
 // "오늘 날짜 알려줘" 요청 처리
 app.post('/today', (req, res) => {
@@ -52,9 +45,8 @@ app.post('/exam', (req, res) => {
                 }
             ]
         }
-    });
-});
-
-// 서버 실행 (Vercel에서는 필요 없지만, 로컬 테스트 용도)
-//const PORT = process.env.PORT || 3000;
-//app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+    }),
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
