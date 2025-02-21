@@ -3,8 +3,7 @@
   "routes": [
     {
       "src": "/api/.*",
-      "dest": "/api/index.js",
-      "methods": ["GET", "POST", "OPTIONS"]
+      "dest": "/api/index.js"
     }
   ]
 }
